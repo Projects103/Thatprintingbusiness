@@ -12,7 +12,7 @@ export const products = [
     tags: ["keychain", "coffee", "accessory"],
     collection: "Keychains",
     
-    specialCollection: "Mothers day",
+    specialCollection: "Some special",
     specialColour: "#ff8c8c"
   },
   {
@@ -28,8 +28,8 @@ export const products = [
     tags: ["keychain", "hat", "accessory"],
     collection: "Keychains",
 
-    specialCollection: "Fathers day",
-    specialColour: "#7AC3BC"
+    specialCollection: "Some special",
+    // specialColour: "#7AC3BC"
   },
   {
     name: "Fruit Buddy - Orange",
