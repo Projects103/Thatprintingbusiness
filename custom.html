@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Custom 3D printing services by [Your Name] – high-quality prototyping and part manufacturing using PLA, PETG, and ABS materials." />
+  <meta property="og:title" content="Custom 3D Printing by [Your Name]" />
+  <meta property="og:description" content="Prototypes, parts, and personal projects – made real using high-quality 3D printing technology." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_US" />
+  <title>Custom 3D Printing</title>
+  <link rel="stylesheet" href="global_styles.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--base-colour);
+      color: #eee;
+    }
+
+    header {
+      width: 100%;
+      background-color: #000;
+    }
+
+    main {
+      width: 100%;
+      padding-top: var(--menu-height);
+    }
+
+    .top-banner {
+      width: 100%;
+      height: calc(100vh - var(--menu-height));
+      background: linear-gradient(to top, var(--accent-colour), var(--base-colour, #1a1a1a));
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: var(--text-and-buttons-colour);
+    }
+
+    h1 {
+      margin: 60px auto;
+      text-align: center;
+      font-size: 3vw;
+      max-width: 800px;
+    }
+
+    @media (max-width: 1000px) {
+      .top-banner {
+        height: 70vh;
+      }
+
+      h1 {
+        font-size: 6vw;
+        margin-top: 30px;
+        padding: 0 20px;
+      }
+    }
+
+    section {
+      background-color: #111;
+      padding: 40px 10%;
+      margin: 40px auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      max-width: 1000px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+      color: var(--accent-colour);
+      margin-bottom: 20px;
+    }
+
+    p, li {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--text-and-buttons-colour);
+    }
+
+    ul, ol {
+      padding-left: 20px;
+      margin: 20px 0;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    .gallery img {
+      width: 100%;
+      border-radius: 5px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.03);
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: 2px solid var(--accent-colour, #0ff);
+    }
+
+    .contact-form button {
+      padding: 12px 25px;
+      background-color: var(--accent-colour, #0ff);
+      color: var(--text-and-buttons-colour, #000);
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .contact-form button:hover {
+      background-color: var(--button-hover, #00cccc);
+      color: var(--base-colour, #1a1a1a);
+    }
+
+    .about {
+      padding: 20px;
+      background-color: #111111b5;
+      border-radius: 10px;
+      margin: 0 10%;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #000;
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header id="menu-placeholder" role="banner"></header>
+
+  <main class="content-container" role="main">
+    <div class="top-banner">
+      <h1>Custom 3D Printing for Prototypes, Parts, and Projects</h1>
+      <div class="about">
+        <h2>Who I Am</h2>
+        <p>Hi, I'm a 19-year-old who loves 3D printing and creating custom prints. I'm passionate about bringing ideas to life using 3D technology, and I'm excited to help you turn your concepts into real, tangible items. Whether it's a prototype, a replacement part, or something entirely unique, I'm here to make it happen!</p>
+      </div>
+    </div>
+
+    <section aria-labelledby="services-heading">
+      <h2 id="services-heading">Services Offered</h2>
+      <p>Here's what I can help you create:</p>
+      <ul>
+        <li>Custom parts and prototypes</li>
+        <li>Replacement parts</li>
+        <li>Gadgets and accessories</li>
+      </ul>
+      <p>Materials I use:</p>
+      <ul>
+        <li><strong>PLA:</strong> Ideal for general-use items, and eco-friendly.</li>
+        <li><strong>PETG:</strong> Durable and strong, great for functional items.</li>
+        <li><strong>ABS:</strong> Tough and heat-resistant, ideal for parts that need to endure stress or heat.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="how-heading">
+      <h2 id="how-heading">How It Works</h2>
+      <p>Here's how the process works from start to finish:</p>
+      <ol>
+        <li><strong>Contact me:</strong> At the bottom of the page there is a contact form, fill it out and I'll get back to you.</li>
+        <li><strong>Consultation (Optional):</strong> I'll provide advice on materials and design modifications.</li>
+        <li><strong>Printing & Quality Check:</strong> I'll 3D print your design with care and ensure top-notch quality.</li>
+        <li><strong>Post-Processing:</strong> If requested, I can sand, or assemble your item.</li>
+        <li><strong>Delivery or Pickup:</strong> Once completed, your print will be delivered or ready for pickup.</li>
+      </ol>
+      <p>Estimated timeframes vary, but I'll keep you updated throughout the process.</p>
+    </section>
+
+    <!-- Uncomment and replace image sources when ready
+    <section class="gallery" aria-labelledby="gallery-heading">
+      <h2 id="gallery-heading">Gallery</h2>
+      <p>Check out some of my previous projects:</p>
+      <img src="your-image1.jpg" alt="3D printed model of a phone stand" loading="lazy" />
+      <img src="your-image2.jpg" alt="3D printed gear prototype" loading="lazy" />
+      <img src="your-image3.jpg" alt="Decorative 3D printed vase" loading="lazy" />
+    </section>
+    -->
+
+    <section aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Contact Me</h2>
+      <p>Have a project in mind or want a custom quote? Get in touch using the form below!</p>
+      <form id="contact-form" action="https://formsubmit.co/ac55d5f086f5fdf7f1d105c4e447a408" method="POST" class="contact-form">
+        <label for="name"><br></label>
+        <input id="name" type="text" name="name" placeholder="Your Name" required>
+
+        <label for="email"></label>
+        <input id="email" type="email" name="email" placeholder="Your Email" required>
+
+        <label for="message"></label>
+        <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+
+        <!-- Optional honeypot field to prevent spam -->
+        <input type="text" name="_honey" style="display:none">
+
+        <!-- Optional success redirect -->
+        <input type="hidden" name="_next" value="thank-you.html">
+
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- <footer role="contentinfo">
+    <p>&copy; 2025 [Your Name] – All rights reserved.</p>
+  </footer> -->
+
+  <script src="js/universal.js"></script>
+</body>
+</html>

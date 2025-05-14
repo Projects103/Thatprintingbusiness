@@ -1,0 +1,173 @@
+:root {
+    --menu-height: 6vh;
+
+    --base-colour: #000000;
+    --accent-colour: #00C2FF;
+    --text-and-buttons-colour: #FAF9F6;
+    --button-hover: #ffffff;
+  }
+
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+body {
+  margin: 0;
+  background-color: var(--base-colour);
+  font-family: Arial, sans-serif;
+}
+
+.menu-pc {
+  background-color: var(--base-colour);
+  color: var(--text-and-buttons-colour);
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: var(--menu-height);
+  top: 0;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 0.8em;
+  z-index: 3;
+}
+
+.menu-items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  flex: 1;
+  position: relative;
+  min-width: 5em;
+}
+
+.menu-items-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background-color: var(--accent-colour);
+  transition: height 0.1s ease;
+}
+
+.menu-items:hover .menu-items-child {
+  height: 100%;
+  cursor: pointer;
+}
+
+.menu-items-text {
+  z-index: 1;
+}
+
+.menu-items-text:hover {
+  cursor: pointer;
+}
+
+.menu-pc-background {
+  background-color: var(--base-colour);
+  position: fixed;
+  width: 55vw;
+  height: var(--menu-height);
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.menu-mobile {
+  display: none;
+  justify-content: flex-start;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: var(--menu-height);
+  width: 100vw;
+  background-color: var(--base-colour);
+  padding: 15px 20px;
+  color: var(--text-and-buttons-colour);
+  font-size: 1.6rem;
+  font-weight: bold;
+  z-index: 5;
+  box-sizing: border-box; /* Include padding in height calculation */
+}
+
+.collapsible-menu-mobile {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100vw;
+  height: 0;
+  padding: 0 20px;
+  background-color: var(--base-colour);
+  color: var(--text-and-buttons-colour);
+  z-index: 4;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: all 0.25s ease;
+  visibility: hidden;
+}
+
+.collapsible-menu-mobile.open {
+  border-color: var(--text-and-buttons-colour);
+}
+
+.collapsible-menu-mobile-close {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 2;
+}
+
+.mobile-menu-item {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  z-index: 4;
+}
+
+a.mobile-menu-item,
+a.menu-items {
+    text-decoration: none;     /* removes underline */
+    color: inherit;            /* inherits text color from parent */
+    display: block;            /* makes the link behave like a div */
+}
+
+a.menu-items {
+    display: flex;             /* keeps your inner divs aligned properly */
+    align-items: center;       /* optional: aligns child divs vertically */
+}
+
+.mobile-menu-item:hover {
+    background-color: var(--button-hover);
+}
+
+
+@media (max-width: 1000px) {
+  :root {
+      --menu-height: 60px;
+  }
+
+  .menu-pc {
+      display: none;
+  }
+
+  .menu-mobile {
+      display: flex;
+  }
+
+  .menu-pc-background {
+      display: none;
+  }
+}

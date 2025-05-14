@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Custom 3D printing services by [Your Name] – high-quality prototyping and part manufacturing using PLA, PETG, and ABS materials." />
+  <meta property="og:title" content="Custom 3D Printing by [Your Name]" />
+  <meta property="og:description" content="Prototypes, parts, and personal projects – made real using high-quality 3D printing technology." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_US" />
+  <title>About me</title>
+  <link rel="stylesheet" href="global_styles.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--base-colour);
+      color: #eee;
+    }
+
+    header {
+      width: 100%;
+      background-color: #000;
+    }
+
+    main {
+      width: 100%;
+      padding-top: var(--menu-height);
+    }
+
+    .top-banner {
+      height: calc(100vh - var(--menu-height));
+      background: linear-gradient(to top, var(--accent-colour), var(--base-colour, #1a1a1a));
+      padding: 0 20px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: var(--text-and-buttons-colour);
+    }
+
+    h1 {
+      margin: 20px auto;
+      text-align: center;
+      font-size: 3vw;
+      max-width: 800px;
+    }
+
+    @media (max-width: 1000px) {
+      .top-banner {
+        height: 100vh;
+      }
+
+      h1 {
+        font-size: 6vw;
+        margin-top: 10px;
+        padding: 0 20px;
+      }
+    }
+
+    section {
+      background-color: #111;
+      padding: 40px 10%;
+      margin: 40px auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      max-width: 1000px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+      color: var(--accent-colour);
+      margin-bottom: 20px;
+    }
+
+    p, li {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--text-and-buttons-colour);
+    }
+
+    ul, ol {
+      padding-left: 20px;
+      margin: 20px 0;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    .gallery img {
+      width: 100%;
+      border-radius: 5px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.03);
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: 2px solid var(--accent-colour, #0ff);
+    }
+
+    .contact-form button {
+      padding: 12px 25px;
+      background-color: var(--accent-colour, #0ff);
+      color: var(--text-and-buttons-colour, #000);
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .contact-form button:hover {
+      background-color: var(--button-hover, #00cccc);
+      color: var(--base-colour, #1a1a1a);
+    }
+
+    .about, .offering, .getStarted {
+      padding: 10px;
+      border-radius: 10px;
+      margin: 0 10%;
+    }
+
+    footer {
+      text-align: center;
+      padding: 100px;
+      background-color: var(--base-colour);
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+
+    a {
+      color: var(--text-and-buttons-colour);
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header id="menu-placeholder" role="banner"></header>
+
+  <main class="content-container" role="main">
+    <div class="top-banner">
+      <div class="about">
+        <h1>About me</h1>
+        <p>Hi, I'm a 19-year-old who loves 3D printing and creating custom prints. I'm passionate about bringing ideas to life using 3D technology, and I'm excited to help you turn your concepts into real, tangible items. Whether it's a prototype, a replacement part, or something entirely unique, I'm here to make it happen!</p>
+      </div>
+      <div class="offering">
+        <h1>What I offer</h1>
+        <p>
+          I offer custom 3D designing and printing as well as other things that have already been designed such as keychains, accessories and more!<br>
+          If you are interested please <a href="home.html#contact-heading">visit the contact section on the home page</a>.
+        </p>
+      </div>
+      <div class="getStarted">
+        <h1>How to get started</h1>
+        <p>
+          Are you interested in getting custom 3D printable designs?<br>
+          Check out the <a href="custom.html#how-heading">Custom designs page</a>.<br><br>
+          Or if you're interested in already made items visit the <a href="products.html#contact-heading">products page</a>.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/universal.js"></script>
+</body>
+</html>

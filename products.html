@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Products</title>
+  <link rel="stylesheet" href="global_styles.css" />
+  <link rel="stylesheet" href="product.css" />
+  <style>
+    body {
+      background-color: var(--base-colour);
+      margin: 0;
+      font-family: Arial, sans-serif;
+      padding-top: var(--menu-height);
+    }
+
+    .content-container {
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .content-container h1 {
+      text-align: center; 
+      color: white;
+    }
+
+    .search-box {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 300px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      background-color: #ffffff;
+      border-radius: 5px;
+      color: #000000;
+    }
+
+    .no-products-animation {
+      display: none;
+      text-align: center;
+      color: white;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .no-products-animation p {
+      font-size: 1.2em;
+      margin-top: 10px;
+    }
+
+    .no-result-gif {
+      width: 100%;
+      max-width: 250px;
+      object-fit: contain;
+    }
+
+    .product-group-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      row-gap: 50px; /* More space between rows */
+      column-gap: 20px;
+    }
+
+    .collection-preview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      width: 100%;
+      aspect-ratio: 1;
+      overflow: hidden;
+    }
+
+    .collection-preview-grid img, .single-item-preview {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .collection-preview-grid.single-item {
+      grid-template-columns: 1fr;
+      aspect-ratio: unset;
+    }
+
+    .ribbon {
+      position: absolute;
+      top: 20px;
+      left: -40px;
+      background: rgba(255, 255, 255, 0.8);
+      color: #000;
+      padding: 5px 50px;
+      font-size: 0.75em;
+      font-weight: bold;
+      transform: rotate(-45deg);
+      z-index: 1;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    /* General product card styling for text and hover */
+    .product-card {
+      text-decoration: none;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      border: none;
+      transition: transform 0.2s ease;
+    }
+
+    @media (max-width:1000px){
+      .product-group-grid {
+        row-gap: 20px;
+      }
+    }
+
+    /* Styles moved from inline to here */
+    .product-card.special-collection-card {
+      position: relative;
+      background-color: var(--card-color);
+      border-radius: 8px;
+      overflow: hidden;
+      color: var(--text-color);
+    }
+
+    .product-card.special-collection-card .product-name {
+      text-align: center;
+      font-size: 1.1em;
+      margin-top: 10px;
+    }
+
+    .product-card.special-collection-card .product-price {
+      font-size: 0.9em;
+      text-align: center;
+      color: var(--base-colour);
+    }
+
+    .product-card.special-collection-card .ribbon {
+      position: absolute;
+      top: 20px;
+      left: -40px;
+      background: rgba(255, 255, 255, 0.8);
+      color: #000;
+      padding: 5px 50px;
+      font-size: 0.75em;
+      font-weight: bold;
+      transform: rotate(-45deg);
+      z-index: 1;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    /* Styles for product card preview */
+    .product-card .collection-preview-grid.single-item {
+      grid-template-columns: 1fr;
+      aspect-ratio: unset;
+    }
+  </style>
+</head>
+<body>
+  <div id="menu-placeholder"></div>
+
+  <div id="backButtonContainer" style="display: none; padding: 10px 20px;">
+    <a href="products.html" style="color: var(--accent-colour); text-decoration: none; font-weight: bold;">← Back to Products</a>
+  </div>
+
+  <div class="content-container">
+    <h1>Products</h1>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search products by keyword or tag..." onkeyup="filterProducts()">
+    </div>
+
+    <div id="noProductsAnimation" class="no-products-animation">
+      <img src="Nothing found.png" alt="No products found" class="no-result-gif" />
+    </div>
+
+    <div class="product-container" id="productContainer"></div>
+  </div>
+
+  <!-- Confetti library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script type="module">
+    import { products } from './js/products.js';
+
+    let noResultsTimer = null;
+    let confettiShown = false;
+    let stillHereTimer = null;
+    let tabIsActive = true;
+
+    function getContrastTextColor(hex) {
+      // Remove hash if present
+      hex = hex.replace('#', '');
+
+      // Convert 3-digit to 6-digit hex
+      if (hex.length === 3) {
+        hex = hex.split('').map(c => c + c).join('');
+      }
+
+      const r = parseInt(hex.substring(0, 2), 16);
+      const g = parseInt(hex.substring(2, 4), 16);
+      const b = parseInt(hex.substring(4, 6), 16);
+
+      // Calculate brightness
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+      // Return black for bright backgrounds, white for dark
+      return brightness > 150 ? '#000000' : '#ffffff';
+    }
+
+    function displayProducts(filtered = products, showCollections = true) {
+      const container = document.getElementById("productContainer");
+      const noProductsAnimation = document.getElementById("noProductsAnimation");
+
+      container.innerHTML = "";
+
+      if (filtered.length === 0) {
+        noProductsAnimation.style.display = "flex";
+        container.style.display = "none";
+
+        if (!noResultsTimer && !confettiShown && tabIsActive) {
+          noResultsTimer = setTimeout(() => {
+            doSomethingCool();
+            confettiShown = true;
+            stillHereTimer = setTimeout(doSomethingCoolAgain, 60000);
+          }, 10000);
+        }
+        return;
+      } else {
+        noProductsAnimation.style.display = "none";
+        container.style.display = "block";
+        clearTimers();
+      }
+
+      const grid = document.createElement("div");
+      grid.className = "product-group-grid";
+
+      if (showCollections) {
+        // Special collections FIRST
+        const uniqueSpecialCollections = Array.from(new Set(products.map(p => p.specialCollection).filter(Boolean)));
+
+        uniqueSpecialCollections.forEach(special => {
+          const specialProducts = products.filter(p => p.specialCollection === special && p.image);
+          const previewItems = specialProducts.length < 3 ? specialProducts.slice(0, 1) : specialProducts.slice(0, 4);
+          const firstProduct = specialProducts[0];
+          const cardColor = firstProduct?.specialColour || "#444";
+          const textColor = getContrastTextColor(cardColor);
+
+          const previewImagesHTML = previewItems.map(p => `
+            <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='products/unknown image.png'">
+          `).join('');
+
+          const isSingleItem = previewItems.length === 1;
+          const card = document.createElement("a");
+          card.className = "product-card special-collection-card";
+          card.href = `/products.html?specialCollection=${encodeURIComponent(special)}`;
+          card.style.backgroundColor = cardColor;
+          card.style.color = textColor;
+
+          card.innerHTML = `
+            <div class="ribbon no-select">SPECIAL</div>
+            <div class="collection-preview-grid ${isSingleItem ? 'single-item' : ''}">
+              ${isSingleItem
+                ? `<img src="${previewItems[0].image}" alt="${previewItems[0].name}" class="single-item-preview" loading="lazy" onerror="this.src='products/unknown image.png'">`
+                : previewImagesHTML}
+            </div>
+            <div class="product-name">${special}</div>
+            <div class="product-price" style="font-size: 0.9em;">View Special</div>
+          `;
+          grid.appendChild(card);
+        });
+
+        // Regular collections NEXT
+        const uniqueCollections = Array.from(new Set(products.map(p => p.collection).filter(Boolean)));
+
+        uniqueCollections.forEach(collection => {
+          const collectionProducts = products.filter(p => p.collection === collection && p.image);
+          const previewItems = collectionProducts.length < 3 ? collectionProducts.slice(0, 1) : collectionProducts.slice(0, 4);
+
+          const previewImagesHTML = previewItems.map(p => `
+            <img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='products/unknown image.png'">
+          `).join('');
+
+          const isSingleItem = previewItems.length === 1;
+          const card = document.createElement("a");
+          card.className = "product-card";
+          card.href = `/products.html?collection=${encodeURIComponent(collection)}`;
+
+          card.innerHTML = `
+            <div class="collection-preview-grid ${isSingleItem ? 'single-item' : ''}">
+              ${isSingleItem
+                ? `<img src="${previewItems[0].image}" alt="${previewItems[0].name}" class="single-item-preview" loading="lazy" onerror="this.src='products/unknown image.png'">`
+                : previewImagesHTML}
+            </div>
+            <div class="product-name">${collection}</div>
+            <div class="product-price" style="color: var(--accent-colour); font-size: 0.9em;">View Collection</div>
+          `;
+          grid.appendChild(card);
+        });
+      }
+
+      // Individual product cards
+      filtered.forEach(product => {
+        const card = createProductCard(product);
+        grid.appendChild(card);
+      });
+
+      container.appendChild(grid);
+    }
+
+    function createProductCard(product) {
+      const card = document.createElement("a");
+      card.className = "product-card";
+      card.href = `product.html?id=${products.indexOf(product)}`;
+      card.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='products/unknown image.png'" loading="lazy">
+        <div class="product-name">${product.name}</div>
+        <div class="product-price">${product.price}</div>
+      `;
+      return card;
+    }
+
+    let debounceTimer;
+    function filterProducts() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        const input = document.getElementById("searchInput").value.trim().toLowerCase();
+
+        if (input === "") {
+          // If input is empty, show all products with collections
+          displayProducts(products, true);
+        } else {
+          // Otherwise, filter and hide collections
+          const filtered = products.filter(p =>
+            p.name.toLowerCase().includes(input) ||
+            (p.tags && p.tags.some(tag => tag.toLowerCase().includes(input)))
+          );
+          displayProducts(filtered, false);
+        }
+      }, 300);
+    }
+
+    window.filterProducts = filterProducts;
+
+    function doSomethingCool() {
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+
+      const animation = document.getElementById("noProductsAnimation");
+      const message = document.createElement("p");
+      message.style.color = "#ffeb3b";
+      message.style.fontSize = "1.2em";
+      message.style.marginTop = "20px";
+      message.textContent = "🎉 Still no matches, but you're awesome for trying! 💫";
+      animation.appendChild(message);
+
+      setTimeout(() => {
+        animation.removeChild(message);
+      }, 5000);
+    }
+
+    function doSomethingCoolAgain() {
+      confetti({
+        particleCount: 100,
+        spread: 80,
+        origin: { y: 0.5 }
+      });
+
+      const animation = document.getElementById("noProductsAnimation");
+      const message = document.createElement("p");
+      message.style.color = "#4fc3f7";
+      message.style.fontSize = "1.2em";
+      message.style.marginTop = "10px";
+      message.textContent = "🤔 You're still here?";
+      animation.appendChild(message);
+
+      setTimeout(() => {
+        animation.removeChild(message);
+      }, 5000);
+    }
+
+    function clearTimers() {
+      clearTimeout(noResultsTimer);
+      clearTimeout(stillHereTimer);
+      noResultsTimer = stillHereTimer = null;
+      confettiShown = false;
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      tabIsActive = !document.hidden;
+      if (tabIsActive && document.getElementById("noProductsAnimation").style.display === "flex" && !noResultsTimer && !confettiShown) {
+        noResultsTimer = setTimeout(() => {
+          doSomethingCool();
+          confettiShown = true;
+          stillHereTimer = setTimeout(doSomethingCoolAgain, 60000);
+        }, 10000);
+      } else {
+        clearTimers();
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const collectionFilter = urlParams.get("collection");
+      const specialCollectionFilter = urlParams.get("specialCollection");
+
+      const backButtonContainer = document.getElementById("backButtonContainer");
+
+      if (collectionFilter || specialCollectionFilter) {
+        backButtonContainer.style.display = "block";
+      }
+
+      if (collectionFilter) {
+        const filtered = products.filter(p => p.collection === collectionFilter);
+        displayProducts(filtered, false);
+      } else if (specialCollectionFilter) {
+        const filtered = products.filter(p => p.specialCollection === specialCollectionFilter);
+        displayProducts(filtered, false);
+      } else {
+        displayProducts(products);
+      }
+    });
+
+  </script>
+
+  <script src="js/universal.js"></script>
+</body>
+</html>

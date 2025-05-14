@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- MOBILE OPTIMIZATION -->
+
+  <link rel="stylesheet" href="global_styles.css">
+  <style>
+    :root {
+      --mobile-padding: 20px;
+    }
+  
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: var(--text-and-buttons-colour);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+    }
+  
+    body {
+      padding-top: calc(10px + var(--menu-height));
+      padding-bottom: 20px;
+    }
+  
+    .product-details {
+      width: 100%;
+      max-width: 700px;
+      margin: auto;
+      background-color: var(--base-colour);
+      /* background: #4a4a4a; */
+      padding: 30px;
+      border-radius: 12px;
+      min-height: calc(100vh - var(--menu-height) - 30px); /* Full height minus top/bottom padding */
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  
+    .product-details img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 8px;
+      margin-bottom: 25px;
+    }
+  
+    .product-name {
+      font-size: 2em;
+      font-weight: bold;
+      color: var(--accent-colour);
+      margin-bottom: 10px;
+      text-shadow: 0 0 5px rgba(0, 194, 255, 0.3);
+    }
+  
+    .product-price {
+      color: #29ca2e;
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+  
+    .product-description {
+      font-size: 1em;
+      margin-bottom: 20px;
+      color: var(--text-and-buttons-colour);
+    }
+  
+    .specifications {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 15px;
+      border-left: 4px solid var(--accent-colour);
+      border-radius: 6px;
+    }
+  
+    .specifications strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.1em;
+      color: var(--accent-colour);
+    }
+  
+    .product-tags {
+        margin-top: 20px;
+    }
+
+    .product-tags a.tag {
+        display: inline-block;
+        background-color: var(--accent-colour);
+        color: #000;
+        padding: 6px 12px;
+        margin: 4px 6px 0 0;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 0.9em;
+        transition: background-color 0.3s ease;
+    }
+
+    .product-tags a.tag:hover {
+        background-color: #00b0e0;
+    }
+    .product-collection a {
+      color: var(--accent-colour);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .product-collection a:hover {
+      color: #ffd700;
+    }
+
+    .product-back {
+      color: var(--accent-colour);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    /* MOBILE STYLES */
+    @media (max-width: 1000px) {
+        body {
+            padding-top: var(--menu-height);
+            padding-bottom: 0px;
+        }
+
+        .product-details {
+            width: 100%;
+            max-width: none;
+            border-radius: 0;
+            padding: var(--mobile-padding);
+            min-height: 100vh;
+        }
+  
+        .product-name {
+            font-size: 1.6em;
+        }
+    
+        .product-price {
+            font-size: 1.2em;
+        }
+    
+        .product-description,
+        .specifications {
+            font-size: 1em;
+        }
+    }
+  </style>
+  
+</head>
+<body>
+  <div id="menu-placeholder"></div>
+
+  <div style="padding: 10px 20px;">
+    <a href="products.html" class="product-back">← Back to Products</a>
+  </div>
+
+  <div class="product-details" id="productDetails">
+    <p>Loading product...</p>
+  </div>
+
+  <script src="js/universal.js"></script>
+  <script type="module">
+    import { products } from './js/products.js';
+  
+    function getProductById(id) {
+      const index = parseInt(id, 10);
+      if (isNaN(index) || index < 0 || index >= products.length) return null;
+      return products[index];
+    }
+  
+    function displayProduct(product) {
+      const container = document.getElementById('productDetails');
+  
+      if (!product) {
+        container.innerHTML = "<p>Product not found.</p>";
+        return;
+      }
+  
+      // 3. Dynamically set the page title
+      document.title = `${product.name ?? "Product"} - Product Details`;
+  
+      const tagLinks = (product.tags ?? []).map(tag => 
+      `<a href="products.html?tag=${encodeURIComponent(tag)}" class="tag">${tag}</a>`
+      ).join(' ');
+
+        container.innerHTML = `
+            <img src="${product.image}" alt="${product.name ? `Image of ${product.name}` : 'Product image'}" 
+                onerror="this.src='products/unknown image.png'">
+            <div class="product-name">${product.name ?? "Unnamed Product"}</div>
+            <div class="product-price">${product.price ?? "Price Unavailable"}</div>
+            <div class="product-description">${product.description ?? "No description available."}</div>
+            <div class="specifications">
+                <strong>Specifications:</strong><br>
+                Material: ${product.specifications?.material ?? "N/A"}<br>
+                Weight: ${product.specifications?.weight ?? "N/A"}<br>
+                Dimensions: ${product.specifications?.dimensions ?? "N/A"}
+            </div>
+            ${product.collection ? `
+            <div class="product-tags">
+              <strong>Collection:</strong> 
+              <a href="products.html?collection=${encodeURIComponent(product.collection)}" class="tag">${product.collection}</a>
+            </div>` : ""}
+            ${tagLinks ? `<div class="product-tags"><strong>Tags:</strong> ${tagLinks}</div>` : ""}
+        `;
+    }
+  
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById('productDetails');
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get('id');
+  
+      // 1. Handle missing ID
+      if (!productId) {
+        container.innerHTML = "<p>No product ID provided in the URL.</p>";
+        return;
+      }
+  
+      const product = getProductById(productId);
+      displayProduct(product);
+    });
+  </script>  
+</body>
+</html>
