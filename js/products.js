@@ -2,7 +2,7 @@ export const products = [
   {
     name: "Coffee cup keychain",
     price: "$4.99",
-    image: "products/Product 1.png",
+    image: "products/Product.png",
     description: "No description",
     specifications: {
       material: "PLA",
@@ -18,7 +18,7 @@ export const products = [
   {
     name: "Top hat keychain",
     price: "$4.99",
-    image: "products/Product 2.png",
+    image: "products/Product.png",
     description: "No description",
     specifications: {
       material: "PLA",
@@ -34,7 +34,7 @@ export const products = [
   {
     name: "Fruit Buddy - Orange",
     price: "$4.99",
-    image: "products/Product 3.png",
+    image: "products/Product.png",
     description: "No description",
     specifications: {
       material: "PLA",
@@ -47,7 +47,7 @@ export const products = [
   {
     name: "Traffic Cone keychain",
     price: "$4.99",
-    image: "products/Product 4.png",
+    image: "products/Product.png",
     description: "No description",
     specifications: {
       material: "PLA",
