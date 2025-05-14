@@ -13,7 +13,7 @@ export const products = [
     collection: "Keychains",
     
     specialCollection: "Some special",
-    specialColour: "#ff8c8c"
+    specialColour: "#accf84"
   },
   {
     name: "Top hat keychain",
